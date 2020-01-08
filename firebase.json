@@ -1,0 +1,26 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false
+  },
+  "database": {
+    "rules": {
+      ".read": false,
+      ".write": false
+    }
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ],
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "-/-",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "user1" : {
+       "FirstName" : "mahesh",
+       "LastName" : "mahesh",
+       "Password" : "password1",
+       "id": 1
+    },
+    
+    "user2" : {
+       "FirstName" : "suresh",
+       "LastName" : "suresh",
+       "Password" : "password1",
+       "id": 2
+    },
+    
+    "user3" : {
+       "FirstName" : "ramesh",
+       "LastName" : "ramesh",
+       "Password" : "password1",
+       "id": 3
+    }
+ }
