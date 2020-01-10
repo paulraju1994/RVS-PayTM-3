@@ -17,4 +17,5 @@ let checkDocId = (mobileNumber) => {
             return err;
         })
 }
+
 module.exports.checkDocId = checkDocId;

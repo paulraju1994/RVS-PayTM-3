@@ -7,16 +7,31 @@ route.post('/register', async (request, response) => {
     return new Promise(async (resolve, reject) => {
         var registerUser = request.body;
         var mobileNumber = registerUser.MobileNumber;
-        const userRef = db.collection('Users').doc(JSON.stringify(mobileNumber));
-        let checkExistence = await helperObject.checkDocId(mobileNumber);
-        /* Check if the user already exists or not */
-        if (!checkExistence) {
-            /* Enter the input values to user table in DB */
-            userRef.set({ IsAdmin: false, MobileNumber: mobileNumber, Password: 'password01', AccountBalance : registerUser.AccountBalance, Email : registerUser.Email });
-            return resolve({ MESSAGE: 'Thank you for registering in RVS PayTM', STATUS: 'SUCCESS' });
-        } else {
-            return reject({ MESSAGE: 'User already exists', STATUS: 'FAILURE' });
+        var password = registerUser.Password;
+        if (registerUser.MobileNumber && registerUser.Email && registerUser.Password) {
+            var passwordCondition = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/;
+            if (!password.match(passwordCondition)) {
+                /* Check for password validation */
+                return reject({ MESSAGE: 'Please enter a valid password with atleast one number, one special character and min 8 characters', STATUS: 'FAILURE' });
+            } else if (isNaN(mobileNumber) || JSON.stringify(mobileNumber).length !== 10) {
+                /* Check for phone number validation */
+                return reject({ MESSAGE: 'Please enter a valid phone number', STATUS: 'FAILURE' });
+            } else {
+                /* Set DB if all validations are completed */
+                const userRef = db.collection('Users').doc(JSON.stringify(mobileNumber));
+                let checkExistence = await helperObject.checkDocId(mobileNumber);
+                /* Check if the user already exists or not */
+                if (!checkExistence) {
+                    /* Enter the input values to user table in DB */
+                    userRef.set({ IsAdmin: registerUser.IsAdmin, MobileNumber: mobileNumber, Password: registerUser.Password, AccountBalance: registerUser.AccountBalance, Email: registerUser.Email });
+                    return resolve({ MESSAGE: 'Thank you for registering in RVS PayTM', STATUS: 'SUCCESS' });
+                } else {
+                    return reject({ MESSAGE: 'User already exists', STATUS: 'FAILURE' });
+                }
+            }
         }
+
+
     }).then(result => {
         response.send(result);
     })

@@ -5,10 +5,10 @@ var helperObject = require('./helper/helper');
 /* API triggered on calling api/user/login */
 route.post('/login', async (request, response) => {
     return new Promise(async (resolve, reject) => {
-        var loginuser = request.body;
+        var loginUser = request.body;
         /* Check for mandatory fields */
-        if (loginuser.MobileNumber && loginuser.Password) {
-            var mobileNumber = loginuser.MobileNumber;
+        if (loginUser.MobileNumber && loginUser.Password) {
+            var mobileNumber = loginUser.MobileNumber;
             const userRef = db.collection('Users').doc(JSON.stringify(mobileNumber));
             let checkExistence = await helperObject.checkDocId(mobileNumber);
             /* Check if the doc id exists in DB */
@@ -17,13 +17,13 @@ route.post('/login', async (request, response) => {
                     /* Check if the user exists in DB */
                     if (snapshot.exists) {
                         /* Verify the values in DB with input values */
-                        if (snapshot.data().MobileNumber == loginuser.MobileNumber
-                            && snapshot.data().Password == loginuser.Password
-                            && snapshot.data().IsAdmin == loginuser.IsAdmin && loginuser.IsAdmin == true) {
+                        if (snapshot.data().MobileNumber == loginUser.MobileNumber
+                            && snapshot.data().Password == loginUser.Password
+                            && snapshot.data().IsAdmin == loginUser.IsAdmin && loginUser.IsAdmin == true) {
                             return resolve({ MESSAGE: 'Admin logged in successfully', STATUS: 'SUCCESS' });
-                        } else if (snapshot.data().MobileNumber == loginuser.MobileNumber
-                            && snapshot.data().Password == loginuser.Password
-                            && snapshot.data().IsAdmin == loginuser.IsAdmin && loginuser.IsAdmin == false) {
+                        } else if (snapshot.data().MobileNumber == loginUser.MobileNumber
+                            && snapshot.data().Password == loginUser.Password
+                            && snapshot.data().IsAdmin == loginUser.IsAdmin && loginUser.IsAdmin == false) {
                             return resolve({ MESSAGE: 'User logged in successfully', STATUS: 'SUCCESS' });
                         } else {
                             return reject({ MESSAGE: 'Please enter a valid credentials', STATUS: 'FAILURE' });

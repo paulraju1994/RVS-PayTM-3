@@ -6,7 +6,7 @@ var userRegister = require('../controller/user-register');
 var userLogin = require('../controller/user-login');
 // var logout = require('../controller/logout');
 
-// var userListing = require('../controller/user-listing');
+var userListing = require('../controller/user-listing');
 // var transactionHistory = require('../controller/transaction-history');
 // var transactionDetails = require('../controller/transaction-details');
 
@@ -26,6 +26,6 @@ route.use('/user',userLogin);
 // route.use('/user',addMoney);
 // route.use('/user',sendMoney);
 
-// route.use('/users-listing',userListing);
+route.use('/users',userListing);
 
 module.exports=route;
