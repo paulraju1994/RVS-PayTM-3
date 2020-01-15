@@ -20,16 +20,16 @@ route.post('/login', async (request, response) => {
                         if (snapshot.data().MobileNumber == loginUser.MobileNumber
                             && snapshot.data().Password == loginUser.Password
                             && snapshot.data().IsAdmin == loginUser.IsAdmin && loginUser.IsAdmin == true) {
-                            return resolve({ MESSAGE: 'Admin logged in successfully', STATUS: 'SUCCESS' });
+                            return resolve({ Message: 'Admin logged in successfully', Status: 'SUCCESS' });
                         } else if (snapshot.data().MobileNumber == loginUser.MobileNumber
                             && snapshot.data().Password == loginUser.Password
                             && snapshot.data().IsAdmin == loginUser.IsAdmin && loginUser.IsAdmin == false) {
-                            return resolve({ MESSAGE: 'User logged in successfully', STATUS: 'SUCCESS' });
+                            return resolve({ Message: 'User logged in successfully', Status: 'SUCCESS' });
                         } else {
-                            return reject({ MESSAGE: 'Please enter a valid credentials', STATUS: 'FAILURE' });
+                            return reject({ Message: 'Please enter a valid credentials', Status: 'FAILURE' });
                         }
                     } else {
-                        return reject({ MESSAGE: 'Please enter a valid credentials', STATUS: 'FAILURE' });
+                        return reject({ Message: 'Please enter a valid credentials', Status: 'FAILURE' });
                     }
 
                 });

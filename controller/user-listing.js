@@ -1,22 +1,22 @@
 var route = require('express').Router();
 var admin = require('firebase-admin');
 var db = admin.firestore();
-var helperObject = require('./helper/helper');
 
-/* API triggered on calling api/user/login */
+/* API triggered on calling api/users/getallusers */
 route.get('/getallusers', async (request, response) => {
     return new Promise(async (resolve, reject) => {
         const userRef = db.collection('Users');
         userRef.get().then((snapshot) => {
-            console.log(snapshot);
-            if(snapshot) {
-                return resolve({ MESSAGE: 'User list fetching successful', DATA: snapshot.docs() , STATUS: 'SUCCESS' });
+            if(snapshot && snapshot.docs) {
+                var usersList = [];
+                snapshot.docs.forEach((element) => {
+                    usersList.push(element.data());
+                });
+                return resolve({ Message: 'User list fetching successful', Data: usersList , Status: 'SUCCESS' });
             } else {
-                reject({ Message: 'No data found', Status: 'FAILURE' });
+                return reject({ Message: 'No data found', Status: 'FAILURE' });
             }
         }); 
-        // return resolve({ MESSAGE: 'User list fetching successful', DATA: snapshot , STATUS: 'SUCCESS' });
-        // return reject({ Message: 'No data found', Status: 'FAILURE' });
     })
     .then(result => {
         response.send(result);
