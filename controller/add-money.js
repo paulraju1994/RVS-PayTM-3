@@ -28,12 +28,8 @@ route.post('/add-money', async (request, response) => {
                 } else {
                     reject({ Message: 'Please enter valid credentials', Status: 'FAILURE' });
                 }
-
-
             }
         }
-
-
 
     })
         .then(result => {

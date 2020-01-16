@@ -8,15 +8,15 @@ var userLogin = require('../controller/user-login');
 
 var userListing = require('../controller/user-listing');
 // var transactionHistory = require('../controller/transaction-history');
-// var transactionDetails = require('../controller/transaction-details');
+var transactionDetails = require('../controller/transaction-details');
 
 var addMoney = require('../controller/add-money');
-// var sendMoney = require('../controller/send-money');
+var sendMoney = require('../controller/send-money');
 
 /* Navigation of pages based on URL */
 // route.use('/admin',adminLogin);
 // route.use('/admin',logout);
-// route.use('/admin',transactionDetails);
+route.use('/user',transactionDetails);
 
 route.use('/user',userRegister);
 route.use('/user',userLogin);
@@ -24,7 +24,7 @@ route.use('/user',userLogin);
 
 // route.use('/user',transactionHistory);
 route.use('/user',addMoney);
-// route.use('/user',sendMoney);
+route.use('/user',sendMoney);
 
 route.use('/users',userListing);
 
