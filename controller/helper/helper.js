@@ -35,5 +35,41 @@ let checkUserCredentials = (mobileNumber , password) => {
         })
 }
 
+let checkTransactionId = (transactionID) => {
+    return new Promise((resolve, reject) => {
+        var transID = JSON.stringify(transactionID);
+        const transactionRef = db.collection('Transactions').doc(transID);
+        transactionRef.get().then((snapshot) => {
+            if (snapshot.exists) {
+                return resolve(true);
+            } else {
+                return reject(false);
+            }
+        });
+    })
+        .catch((err) => {
+            return err;
+        })
+}
+
+let fetchUserDetails = (mobileNumber) => {
+    return new Promise((resolve, reject) => {
+        var mob = JSON.stringify(mobileNumber);
+        const userRef = db.collection('Users').doc(mob);
+        userRef.get().then((snapshot) => {
+            if (snapshot.exists) {
+                return resolve(snapshot.data().MobileNumber);
+            } else {
+                return reject(null);
+            }
+        });
+    })
+        .catch((err) => {
+            return err;
+        })
+}
+
 module.exports.checkDocId = checkDocId;
 module.exports.checkUserCredentials = checkUserCredentials;
+module.exports.checkTransactionId = checkTransactionId;
+module.exports.fetchUserDetails = fetchUserDetails;

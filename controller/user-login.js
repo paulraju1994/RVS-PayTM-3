@@ -8,11 +8,11 @@ route.post('/login', async (request, response) => {
         var loginUser = request.body;
         /* Check for mandatory fields */
         if (loginUser.MobileNumber && loginUser.Password) {
-            var mobileNumber = loginUser.MobileNumber;
-            const userRef = db.collection('Users').doc(JSON.stringify(mobileNumber));
+            var mobileNumber = loginUser.MobileNumber;            
             let checkExistence = await helperObject.checkDocId(mobileNumber);
             /* Check if the doc id exists in DB */
             if (checkExistence) {
+                const userRef = db.collection('Users').doc(JSON.stringify(mobileNumber));
                 userRef.get().then((snapshot) => {
                     /* Check if the user exists in DB */
                     if (snapshot.exists) {

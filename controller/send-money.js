@@ -42,13 +42,8 @@ route.post('/send-money', async (request, response) => {
                 } else {
                     reject({ Message: 'Please enter valid credentials', Status: 'FAILURE' });
                 }
-
-
             }
         }
-
-
-
     })
         .then(result => {
             response.send(result);

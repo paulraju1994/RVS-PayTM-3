@@ -7,7 +7,7 @@ var userLogin = require('../controller/user-login');
 // var logout = require('../controller/logout');
 
 var userListing = require('../controller/user-listing');
-// var transactionHistory = require('../controller/transaction-history');
+var transactionHistory = require('../controller/transaction-history');
 var transactionDetails = require('../controller/transaction-details');
 
 var addMoney = require('../controller/add-money');
@@ -22,7 +22,7 @@ route.use('/user',userRegister);
 route.use('/user',userLogin);
 // route.use('/user',logout);
 
-// route.use('/user',transactionHistory);
+route.use('/user',transactionHistory);
 route.use('/user',addMoney);
 route.use('/user',sendMoney);
 
