@@ -20,65 +20,6 @@ route.post('/transaction-history', async (request, response) => {
                 })
             })
             resolve(transactionList);
-            // await transactionRef.get().then(async (transactionSnap) => {
-            //     if (transactionSnap && transactionSnap.docs) {
-
-            //         /* Fetch all the items in transaction table */
-            //         transactionSnap.docs.forEach((element) => {
-            //             /* Check in each item whether the requested phone number is involved */
-            //             if ((transactionRequest.MobileNumber === element.data().Sender) ||
-            //                 (transactionRequest.MobileNumber === element.data().Receiver)) {
-
-            //                 /* Fetch the details of the user */
-            //                 const userRef1 = db.collection('Users').doc(JSON.stringify(transactionRequest.MobileNumber));
-            //                 userRef1.get().then((userSnap1) => {
-            //                     if (userSnap1.exists) {
-            //                         var user1 = userSnap1.data();
-            //                         var details = {
-            //                             UserName: null,
-            //                             UserNumber: null,
-            //                             UserBalance: null,
-            //                             OtherUserName: null,
-            //                             OtherUserNumber: null,
-            //                             TransactionDate: null,
-            //                             TransactionID: null,
-            //                             IsSender: false
-            //                         };
-
-            //                         if (element.data().IsSender) {
-            //                             details.UserName = user1.MobileNumber;
-            //                             details.UserNumber = user1.MobileNumber;
-            //                             details.UserBalance = user1.AccountBalance;
-            //                             details.OtherUserName = element.data().Receiver;
-            //                             details.OtherUserNumber = element.data().Receiver;
-            //                         } else {
-            //                             details.UserName = element.data().Sender;
-            //                             details.UserNumber = element.data().Sender;
-            //                             details.UserBalance = user1.AccountBalance;
-            //                             details.OtherUserName = user1.MobileNumber;
-            //                             details.OtherUserNumber = user1.MobileNumber;
-            //                         }
-            //                         details.TransactionDate = element.data().TransactionDate;
-            //                         details.TransactionID = element.data().TransactionID;
-            //                         details.IsSender = element.data().IsSender;
-
-            //                         transactionList.push(details);
-
-            //                         // if (transactionSnap.docs.length === transactionList.length) {
-            //                         //     return resolve({ Message: 'Details fetched successfuly', Data: transactionList, Status: 'SUCCESS' });
-            //                         // }
-            //                     } else {
-            //                         return reject({ Message: 'Invalid requestaaa', Status: 'FAILURE' });
-            //                     }
-            //                 });
-            //             } 
-            //             // else {
-            //             //     return reject({ Message: 'Invalid requestbbb', Status: 'FAILURE' });
-            //             // }
-            //         });
-            //     }
-            // });
-            return resolve({ Message: 'Details fetched successfuly', Data: transactionList, Status: 'SUCCESS' });
         } else {
             return reject({ Message: 'Invalid request', Status: 'FAILURE' });
         }
