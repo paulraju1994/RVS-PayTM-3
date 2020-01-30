@@ -23,7 +23,7 @@ route.post('/register', async (request, response) => {
                 /* Check if the user already exists or not */
                 if (!checkExistence) {
                     /* Enter the input values to user table in DB */
-                    userRef.set({ IsAdmin: registerUser.IsAdmin, MobileNumber: mobileNumber, Password: registerUser.Password, AccountBalance: registerUser.AccountBalance, Email: registerUser.Email });
+                    userRef.set({ IsAdmin: registerUser.IsAdmin, MobileNumber: mobileNumber, Password: registerUser.Password, AccountBalance: registerUser.AccountBalance, Email: registerUser.Email, IsActive : true });
                     return resolve({ Message: 'Thank you for registering in RVS PayTM', Status: 'SUCCESS' });
                 } else {
                     return reject({ Message: 'User already exists', Status: 'FAILURE' });

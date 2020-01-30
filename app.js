@@ -3,7 +3,6 @@ var app=express()
 var bodyparser = require('body-parser');
 app.use(bodyparser.json());
 
-
 /* Firebase service account permissions code */
 var admin = require("firebase-admin");
 /* import the config json file which is generated as private key from firebase*/
@@ -12,6 +11,10 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://paytm-rvs.firebaseio.com"
 });
+
+/* Middleware configurations */
+var middleware=require('./controller/middleware/database')
+app.use(middleware);
 
 /* Routing configurations */
 var routes=require('./router/routes');
