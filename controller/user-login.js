@@ -44,7 +44,7 @@ route.post('/login', async (request, response) => {
             response.send(result);
         })
         .catch(err => {
-            response.send(err);
+            // response.send(err);
         });
 });
 
