@@ -1,6 +1,23 @@
 var admin = require('firebase-admin')
 var db = admin.firestore();
 
+let checkUserSession = (mobileNumber) => {
+    return new Promise((resolve, reject) => {
+        var mob = JSON.stringify(mobileNumber);
+        const usersRef = db.collection('Users').doc(mob);
+        usersRef.get().then((snapshot) => {
+            if(snapshot.data().IsActive){
+                return resolve(true);
+            } else {
+                return reject(false);
+            }
+        });
+    })
+        .catch((err) => {
+            return err;
+        })
+}
+
 let checkDocId = (mobileNumber) => {
     return new Promise((resolve, reject) => {
         var mob = JSON.stringify(mobileNumber);
@@ -69,6 +86,7 @@ let fetchUserDetails = (mobileNumber) => {
         })
 }
 
+module.exports.checkUserSession = checkUserSession;
 module.exports.checkDocId = checkDocId;
 module.exports.checkUserCredentials = checkUserCredentials;
 module.exports.checkTransactionId = checkTransactionId;

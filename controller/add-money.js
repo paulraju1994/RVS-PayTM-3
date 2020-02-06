@@ -12,8 +12,8 @@ route.post('/add-money', async (request, response) => {
                 reject({ Message: 'Please enter valid details', Status: 'FAILURE' });
             } else {
                 const userRef = db.collection('Users').doc(JSON.stringify(userRequest.MobileNumber));
-                let checkExistence = await helperObject.checkDocId(userRequest.MobileNumber);
-                if (checkExistence) {
+                let userSession = await helperObject.checkUserSession(userRequest.MobileNumber);
+                if (userSession) {
                     let checkCredentials = helperObject.checkUserCredentials(userRequest.MobileNumber, userRequest.Password);
                     if (checkCredentials) {
                         let currentBalance = await userRef.get().then((snapshot) => {

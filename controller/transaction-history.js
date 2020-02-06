@@ -9,20 +9,29 @@ route.post('/transaction-history', async (request, response) => {
     return new Promise(async (resolve, reject) => {
         let transactionRequest = request.body;
         transactionRequest.MobileNumber = JSON.parse(transactionRequest.MobileNumber);
-        if (transactionRequest.MobileNumber) {
-            const transactionRef = db.collection('Transactions');
-            await transactionRef.get().then((snapshot) => {
-                snapshot.docs.forEach(element => {
-                    if ((transactionRequest.MobileNumber === element.data().Sender) ||
-                        (transactionRequest.MobileNumber === element.data().Receiver)) {
+        let userSession = await helperObject.checkUserSession(transactionRequest.MobileNumber);
+        if (userSession) {
+            transactionList = [];
+            i = 0;
+
+            if (transactionRequest.MobileNumber) {
+                const transactionRef = db.collection('Transactions');
+                await transactionRef.get().then((snapshot) => {
+                    snapshot.docs.forEach(element => {
+                        if ((transactionRequest.MobileNumber === element.data().SenderName) ||
+                            (transactionRequest.MobileNumber === element.data().ReceiverName)) {
                             transactionList[i++] = element.data();
-                    }
+                        }
+                    })
                 })
-            })
-            resolve(transactionList);
+                resolve(transactionList);
+            } else {
+                reject('no-transaction');
+            }
         } else {
-            return reject({ Message: 'Invalid request', Status: 'FAILURE' });
+            reject('out-of-session');
         }
+
     })
         .then(result => {
             if (transactionList == '') {
@@ -34,7 +43,12 @@ route.post('/transaction-history', async (request, response) => {
             }
         })
         .catch(err => {
-            response.send({ Message: 'No Transactions yet', Data: result, Status: 'SUCCESS' });
+            if(err === 'out-of-session'){
+                response.send({ Message: 'Out of session', Data: [], Status: 'SUCCESS' });
+            } else {
+                response.send({ Message: 'No Transactions yet', Data: [], Status: 'SUCCESS' });
+            }
+            
         });
 });
 

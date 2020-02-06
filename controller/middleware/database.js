@@ -16,9 +16,9 @@ module.exports = async (req, res, next) => {
         // if(reqBody.IsAdmin) {
 
         // } else {
-        if (url.includes('register')) {
-            next();
-        }
+        // if (url.includes('register')) {
+        //     next();
+        // }
         var mobileNumber = JSON.stringify(reqBody.MobileNumber);
 
         /* Fn for activating the user */
@@ -48,7 +48,12 @@ module.exports = async (req, res, next) => {
                 let userExists = await helper.checkDocId(mobileNumber);
                 if (userExists) {
                     db.collection('Users').doc(JSON.stringify(mobileNumber)).get().then((snapshot) => {
-                        resolve(true);
+                        if(snapshot.data().IsActive){
+                            resolve(true);
+                        } else {
+                            reject(false);
+                        }
+                        
                     })
                 } else {
                     reject(false);
@@ -87,7 +92,7 @@ module.exports = async (req, res, next) => {
             // res.send({ Message: activeUser, Status: 'FAILURE' });
 
 
-            if (activeUser === true) {
+            if (activeUser === false) {
                 db.collection('Users').doc(userMobStr).get().then((snapshot) => {
                     if (snapshot.data().MobileNumber == userMob && snapshot.data().Password == userPswd) {
                         var userActive = snapshot.data().IsActive;
@@ -154,6 +159,32 @@ module.exports = async (req, res, next) => {
 
                 });
             }
+        } 
+        // else if (url.includes('transaction-history')) {
+        //     let userMob = req.body.MobileNumber;
+        //     // let mobno = JSON.stringify(userMob);
+        //     var active = activeFlag(userMob);
+        //     // res.send({Message:active,Status:'Failure'});
+        //     if(active==true){
+        //         next();
+        //     } else{
+        //         res.send({Message:'Out of session',Status:'Failure'});
+
+        //         // let userExists = await helper.checkDocId(mobno);
+        //         // if (userExists) {
+        //             // db.collection('Users').doc(JSON.stringify(mobileNumber)).get().then((snapshot) => {
+        //             //     res.send({Message:'Y',Status:'Failure'})
+        //             // })
+        //         // } else {
+        //             // res.send({Message:'N',Status:'Failure'})
+        //         // }
+
+
+        //         // res.send({Message:mobno,Status:'Failure'})
+        //     }
+        // }
+        else {
+            next();
         }
 
 

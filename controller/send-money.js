@@ -30,7 +30,28 @@ route.post('/send-money', async (request, response) => {
                         if(senderCurrentBalance >= userRequest.Amount){
                             senderRef.update({ AccountBalance: senderCurrentBalance - userRequest.Amount });
                             receiverRef.update({ AccountBalance: receiverCurrentBalance + userRequest.Amount });
-                            resolve({ Message: 'Successfully added the amount to your account', Status: 'SUCCESS' });
+                            
+                            // db.collection('Transactions').doc().set(sampleObject);
+
+                            db.collection('Transactions').get().then(snap => { 
+                                size = snap.size // will return the collection size 
+                                let sampleObject = {
+                                    TransactionID : ++size,
+                                    IsSender : userRequest.SenderNumber === userRequest.UserNumber ? true : false,
+                                    TransactionDate : new Date(),
+                                    UserName : userRequest.UserNumber,
+                                    SenderName : userRequest.SenderNumber === userRequest.UserNumber ? userRequest.SenderNumber : userRequest.ReceiverNumber,
+                                    ReceiverName : userRequest.SenderNumber === userRequest.UserNumber ? userRequest.ReceiverNumber : userRequest.SenderNumber
+                                };
+                                db.collection('Transactions').doc(JSON.stringify(sampleObject.TransactionID)).set(sampleObject);
+                                resolve({ Message: 'Successfully transfered the amount', Status: 'SUCCESS' });
+                            });
+
+                            // resolve({ Message: 'Successfully added the amount to your account', Status: 'SUCCESS' });
+
+                            
+
+
                         } else {
                             reject({ Message: 'Insufficient balance in your account ', Status: 'FAILURE' });
                         }
